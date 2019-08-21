@@ -7,16 +7,18 @@ const {
   MongooseAdapter: Adapter
 } = require("@keystone-alpha/adapter-mongoose");
 
-const { User } = require("./user");
-const { Role } = require("./role");
-
 const keystone = new Keystone({
   name: "Role based access demo",
   adapter: new Adapter()
 });
 
+const { User } = require("./user");
+const { Role } = require("./role");
+const { Post } = require("./post");
+
 keystone.createList("User", User);
 keystone.createList("Role", Role);
+keystone.createList("Post", Post);
 
 const authStrategy = keystone.createAuthStrategy({
   type: PasswordAuthStrategy,
