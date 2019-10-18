@@ -9,7 +9,22 @@ const {
 
 const keystone = new Keystone({
   name: "Role based access demo",
-  adapter: new Adapter()
+  adapter: new Adapter(),
+  onConnect: async keystone => {
+    const users = await keystone.lists.User.adapter.findAll();
+    if (!users.length) {
+      await keystone.createItems({
+        User: [
+          {
+            name: "Admin",
+            email: "admin@keystonejs.com",
+            isAdmin: true,
+            password: "12345678"
+          }
+        ]
+      });
+    }
+  }
 });
 
 const { User } = require("./user");
